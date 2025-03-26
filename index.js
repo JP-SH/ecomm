@@ -15,7 +15,8 @@ app.get('/', (req, res) => {
     `);
 });
 
-app.post('/', (req, res) => {
+const bodyParser = (req, res, next) => {
+  if (req.method === 'POST') {
   req.on('data', data => {
     const parsed = data.toString('utf8').split('&');
     const formData = {};
@@ -23,11 +24,18 @@ app.post('/', (req, res) => {
       const [key, value] = pair.split('=');
       formData[key] = value;
     }
-    console.log(formData);
-
+    req.body = formData;
+    next();
   });
-  res.send('Account Created!');
-});
+ } else {
+  next();
+  }
+};
+
+app.post('/', bodyParser, (req, res) => {
+  console.log(req.body);
+  res.send('Account created!!')
+})
 
 app.listen(3000, () => {
   console.log('listening');
