@@ -84,13 +84,25 @@ class UsersRepository {
   }
 }
 
-const test = async () => {
-  const repo = new UsersRepository('users.json');
 
-  const user = await repo.getOneBy({ password: "password",
-    id: "e51dd37a" });
+// exporting it so that other files can get access to the class
+// non optimal way to write it
 
-    console.log(user);
-};
+// module.exports = UsersRepository;
 
-test();
+// IF WE DID IT THIS WAY THIS IS HOW WE WOULD USE IT IN ANOTHER FILE
+
+// const UsersRepository = require('./users');
+// const repo = new UsersRepository('users.json');
+
+// It makes it so that we have to create an instance of it to use it in the file. Which can cause problems because if I want to use it in another file and I create another instance but have a type  in the file names such as 'user.json'. It will mean I am working with 2 different datasets inside my application.
+
+// best way to write it
+
+// writing it like this prevents other files from recieving the entire class but rather an instance
+module.exports = new UsersRepository('users.json');
+
+// now in another file this can be called by
+// const repo = require('./users');
+// repo.getAll();
+// repo.update();
