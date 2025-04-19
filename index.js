@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 const authRouter = require('./routes/admin/auth');
-const usersRepo = require('./repositories/users');
+
 // the '.' in the line above means to look inside the current directory
 
 const app = express();
