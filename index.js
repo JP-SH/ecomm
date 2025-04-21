@@ -1,4 +1,4 @@
-const express = require('express')
+const express = require('express');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 const authRouter = require('./routes/admin/auth');
