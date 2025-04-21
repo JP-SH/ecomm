@@ -16,25 +16,30 @@ router.post('/signup', [
   check('email')
     .trim()
     .normalizeEmail()
-    .isEmail(),
+    .isEmail()
+    .withMessage('Must be a valid email')
+    .custom( async (email) => {
+      const existingUser = await usersRepo.getOneBy({ email });
+      if (existingUser) {
+        throw new Error('Email in use');
+      }
+    }),
   check('password')
     .trim()
-    .isLength({ min: 4, max: 20 }),
+    .isLength({ min: 4, max: 20 })
+    .withMessage('Must be between 4 and 20 characters'),
   check('passwordConfirmation')
     .trim()
     .isLength({ min: 4, max: 20 })
+    .withMessage('Must be between 4 and 20 characters')
+    .custom( async (passwordConfirmation, { req }) => {
+      if (passwordConfirmation !== req.body.password) {
+        throw new Error('Passwords must match');
+      }
+    })
 ],  async (req, res) => {
   const errors = validationResult(req);
   const { email, password, passwordConfirmation } = req.body;
-
-  const existingUser = await usersRepo.getOneBy({ email });
-  if (existingUser) {
-    return res.send('Email in use');
-  }
-
-  if (password !== passwordConfirmation) {
-    return res.send('Passwords must match');
-  }
 
   // Create a user in our user repo to represent this person
   const user = await usersRepo.create({ email, password });
