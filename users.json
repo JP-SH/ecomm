@@ -1,18 +1,5 @@
 [
   {
-    "email": "test@test.com"
-  },
-  {
-    "email": "ok@ok.com",
-    "password": "123",
-    "id": "7a6abfc2"
-  },
-  {
-    "email": "yes@yes.com",
-    "password": "123",
-    "id": "8180fe97"
-  },
-  {
     "email": "yeh@yeh.com",
     "password": "2db611a1a565470b670269a6d183b614079ed89c680b149f92eebe2a1da1136294e15acb37bdb000d7e45aec548d3591201cf5802b5d50303f5ea2fe52529ada.c05334cfad7f5dc5",
     "id": "da47f576"

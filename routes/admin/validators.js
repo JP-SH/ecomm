@@ -21,7 +21,7 @@ module.exports = {
   .trim()
   .isLength({ min: 4, max: 20 })
   .withMessage('Must be between 4 and 20 characters')
-  .custom( async (passwordConfirmation, { req }) => {
+  .custom( (passwordConfirmation, { req }) => {
     if (passwordConfirmation !== req.body.password) {
       throw new Error('Passwords must match');
     }
@@ -40,7 +40,7 @@ module.exports = {
   requireValidPasswordForUser: check('password')
     .trim()
     .custom( async (password, { req }) => {
-      const user = usersRepo.getOneBy({ email: req.body.email });
+      const user = await usersRepo.getOneBy({ email: req.body.email });
       if (!user) {
         throw new Error('Invalid Password')
       }
@@ -51,5 +51,5 @@ module.exports = {
       if (!validPassword) {
         throw new Error('Invalid Password');
       }
-    }),
+    })
 };
