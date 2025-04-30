@@ -17,9 +17,12 @@ router.get('/admin/products/new', (req, res) => {
   res.send(productNewTemplate({}));
 });
 
-router.post('/admin/products/new', [requireTitle, requirePrice], upload.single('image'),  (req, res) => {
+router.post('/admin/products/new', [requireTitle, requirePrice], upload.single('image'), async (req, res) => {
+  const erros = validationResult(req);
 
-  console.log(req.file);
+  const image = req.file.buffer.toString('base64');
+ const { title, price } = req.body;
+ await productsRepo.create({ title, price, image });
 
   res.send('submitted');
 })
