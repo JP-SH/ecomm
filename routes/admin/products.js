@@ -1,10 +1,10 @@
 const express = require('express');
-const { validationResult } = require('express-validator');
 const multer = require('multer');
 // the require statements above are getting something from an external library
 
+const { handleErrors } = require('./middlewares');
 const productsRepo = require('../../repositories/products');
-const productNewTemplate = require('../../views/admin/products/new');
+const productsNewTemplate = require('../../views/admin/products/new');
 const { requireTitle, requirePrice } = require('./validators');
 // the require statements above are getting access to a file that i created in this app
 
@@ -16,15 +16,18 @@ router.get('/admin/products', (req, res) => {
 });
 
 router.get('/admin/products/new', (req, res) => {
-  res.send(productNewTemplate({}));
+  res.send(productsNewTemplate({}));
 });
 
-router.post('/admin/products/new', upload.single('image'), [requireTitle, requirePrice],  async (req, res) => {
-  const erros = validationResult(req);
-
+router.post(
+  '/admin/products/new',
+  upload.single('image'),
+ [requireTitle, requirePrice],
+  handleErrors(productsNewTemplate),
+ async (req, res) => {
   const image = req.file.buffer.toString('base64');
- const { title, price } = req.body;
- await productsRepo.create({ title, price, image });
+  const { title, price } = req.body;
+  await productsRepo.create({ title, price, image });
 
   res.send('submitted');
 })
