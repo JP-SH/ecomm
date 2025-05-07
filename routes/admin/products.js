@@ -1,10 +1,12 @@
 const express = require('express');
 const { validationResult } = require('exress/validator');
 const multer = require('multer');
+// the require statements above are getting something from an external library
 
 const productsRepo = require('../../repositories/products');
 const productNewTemplate = require('../../views/admin/products/new');
 const { requireTitle, requirePrice } = require('./validators');
+// the require statements above are getting access to a file that i created in this app
 
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
