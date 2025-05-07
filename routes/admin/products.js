@@ -1,5 +1,5 @@
 const express = require('express');
-const { validationResult } = require('exress/validator');
+const { validationResult } = require('express-validator');
 const multer = require('multer');
 // the require statements above are getting something from an external library
 
