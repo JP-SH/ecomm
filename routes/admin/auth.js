@@ -62,7 +62,7 @@ router.post('/signin', [
 
   req.session.userId = user.id;
 
-  res.send('You are signed in!!!');
+  res.redirect('/admin/products');
 });
 
 module.exports = router;
