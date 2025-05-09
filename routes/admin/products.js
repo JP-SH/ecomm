@@ -13,11 +13,17 @@ const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
 
 router.get('/admin/products', async (req, res) => {
+  if (!req.session.userid) {
+    return res.redirect('/signin');
+  }
   const products = await productsRepo.getAll();
   res.send(productsIndexTemplate({ products }));
 });
 
 router.get('/admin/products/new', (req, res) => {
+  if (!req.session.userid) {
+    return res.redirect('/signin');
+  }
   res.send(productsNewTemplate({}));
 });
 
@@ -27,6 +33,9 @@ router.post(
  [requireTitle, requirePrice],
   handleErrors(productsNewTemplate),
  async (req, res) => {
+  if (!req.session.userid) {
+    return res.redirect('/signin');
+  }
   const image = req.file.buffer.toString('base64');
   const { title, price } = req.body;
   await productsRepo.create({ title, price, image });
