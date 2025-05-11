@@ -38,7 +38,7 @@ router.post('/signup', [
   // Store the id of that user inside the us   ers cookie
   req.session.userId = user.id;
 
-  res.send('Account created!!!');
+  res.redirect('admin/products');
 });
 
 router.get('/signout', (req, res) => {
