@@ -20,7 +20,7 @@ app.use(
 }));
 app.use(authRouter);
 app.use(productsRouter);
-appuse(adminProductsRouter);
+app.use(adminProductsRouter);
 
 app.listen(3000, () => {
   console.log('listening');
