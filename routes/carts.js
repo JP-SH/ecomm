@@ -17,10 +17,22 @@ router.post('/cart/products', async (req, res) => {
     // This is we have a cart. Lets get it from the repository
     cart = await cartsRepo.getOne(req.session.cartId);
   }
-
 // Either increment quantity for existing product
 // OR add new product to items array
-  console.log(cart);
+  const existingItem = cart.items.find(item => item.id === req.body.productId);
+  if (existingItem) {
+    // increment quantity and save cart
+    existingItem.quantity++;
+  } else {
+    // add new prodcut id to items array
+    cart.items.push({ id: req.body.productId, quantity: 1 });
+  }
+  await cartsRepo.update(cart.id, {
+    items: cart.items
+  });
+  await cartsRepo.update(cart.id, {
+    items: cart.items
+  });
 
   res.send('Product added to cart');
 });
